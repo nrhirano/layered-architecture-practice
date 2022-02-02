@@ -1,16 +1,15 @@
 package handler
 
 import (
-	"github.com/GenkiHirano/layered-architecture-practice/handler"
 	"github.com/labstack/echo"
 )
 
 // InitRouting routesの初期化
-func InitRouting(e *echo.Echo, taskHandler handler.TaskHandler) {
+func InitRouting(e *echo.Echo, handler handler.TaskHandler) {
 
-	e.POST("/task", taskHandler.Post())
-	e.GET("/task/:id", taskHandler.Get())
-	e.PUT("/task/:id", taskHandler.Put())
-	e.DELETE("/task/:id", taskHandler.Delete())
+	e.POST("/task", handler.Post())
+	e.GET("/task/:id", handler.Get())
+	e.PUT("/task/:id", handler.Put())
+	e.DELETE("/task/:id", handler.Delete())
 
 }

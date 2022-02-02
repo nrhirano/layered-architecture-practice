@@ -1,4 +1,4 @@
-module github.com/GenkiHirano/layered-architecture-practice.git
+module github.com/GenkiHirano/layered-architecture-practice
 
 go 1.17
 

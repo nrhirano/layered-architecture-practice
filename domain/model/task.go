@@ -24,3 +24,15 @@ func NewTask(title, content string) (*Task, error) {
 
 	return task, nil
 }
+
+// Set taskのセッター
+func (t *Task) Set(title, content string) error {
+	if title == "" {
+		return errors.New("titleを入力してください")
+	}
+
+	t.Title = title
+	t.Content = content
+
+	return nil
+}

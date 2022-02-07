@@ -2,8 +2,8 @@ package main
 
 import (
 	"github.com/GenkiHirano/layered-architecture-practice/config"
-	"github.com/GenkiHirano/layered-architecture-practice/handler"
 	"github.com/GenkiHirano/layered-architecture-practice/infra"
+	"github.com/GenkiHirano/layered-architecture-practice/interface/handler"
 	"github.com/GenkiHirano/layered-architecture-practice/usecase"
 
 	_ "github.com/jinzhu/gorm/dialects/mysql"

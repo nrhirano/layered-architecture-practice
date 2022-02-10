@@ -63,13 +63,13 @@ func (tr *taskRepository) Update(task *model.Task) (*model.Task, error) {
 	return updateTask, nil
 }
 
-// Delete taskの削除
-func (tr *taskRepository) Delete(task *model.Task) error {
-	// FIXME: idのみ削除されないので対応する
-	_, err := tr.Engine.Where("id = ?", task.ID).Delete(task)
-	if err != nil {
-		return err
-	}
+// // Delete taskの削除
+// func (tr *taskRepository) Delete(task *model.Task) error {
+// 	// FIXME: idのみ削除されないので対応する
+// 	_, err := tr.Engine.Where("id = ?", task.ID).Delete(task)
+// 	if err != nil {
+// 		return err
+// 	}
 
-	return nil
-}
+// 	return nil
+// }

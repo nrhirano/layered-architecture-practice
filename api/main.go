@@ -15,7 +15,7 @@ func main() {
 
 	r := gin.New()
 	handler.InitRouting(r, taskHandler)
-	// r.Logger.Fatal(r.Start(":8080"))
+	r.Run()
 
 	// r := gin.New()
 	// r.GET("/task", func(c *gin.Context) {

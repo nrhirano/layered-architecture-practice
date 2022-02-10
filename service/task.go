@@ -10,7 +10,7 @@ type TaskService interface {
 	Create(title, content string) (*model.Task, error)
 	FindByID(id int) (*model.Task, error)
 	Update(id int, title, content string) (*model.Task, error)
-	Delete(id int) error
+	// Delete(id int) error
 }
 
 type taskService struct {
@@ -67,17 +67,17 @@ func (tu *taskService) Update(id int, title, content string) (*model.Task, error
 	return updatedTask, nil
 }
 
-// Delete taskを削除するときのユースケース
-func (tu *taskService) Delete(id int) error {
-	task, err := tu.taskRepo.FindByID(id)
-	if err != nil {
-		return err
-	}
+// // Delete taskを削除するときのユースケース
+// func (tu *taskService) Delete(id int) error {
+// 	task, err := tu.taskRepo.FindByID(id)
+// 	if err != nil {
+// 		return err
+// 	}
 
-	err = tu.taskRepo.Delete(task)
-	if err != nil {
-		return err
-	}
+// 	err = tu.taskRepo.Delete(task)
+// 	if err != nil {
+// 		return err
+// 	}
 
-	return nil
-}
+// 	return nil
+// }

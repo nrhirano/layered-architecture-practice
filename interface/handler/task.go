@@ -13,7 +13,7 @@ type TaskHandler interface {
 	Post() gin.HandlerFunc
 	Get() gin.HandlerFunc
 	Put() gin.HandlerFunc
-	Delete() gin.HandlerFunc
+	// Delete() gin.HandlerFunc
 }
 
 type taskHandler struct {
@@ -110,19 +110,19 @@ func (th *taskHandler) Put() gin.HandlerFunc {
 	}
 }
 
-// Delete taskを削除するときのハンドラー
-func (th *taskHandler) Delete() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		id, err := strconv.Atoi(c.Param("id"))
-		if err != nil {
-			c.AbortWithStatusJSON(http.StatusBadRequest, err.Error())
-		}
+// // Delete taskを削除するときのハンドラー
+// func (th *taskHandler) Delete() gin.HandlerFunc {
+// 	return func(c *gin.Context) {
+// 		id, err := strconv.Atoi(c.Param("id"))
+// 		if err != nil {
+// 			c.AbortWithStatusJSON(http.StatusBadRequest, err.Error())
+// 		}
 
-		err = th.taskService.Delete(id)
-		if err != nil {
-			c.AbortWithStatusJSON(http.StatusBadRequest, err.Error())
-		}
+// 		err = th.taskService.Delete(id)
+// 		if err != nil {
+// 			c.AbortWithStatusJSON(http.StatusBadRequest, err.Error())
+// 		}
 
-		c.NoContent(http.StatusNoContent)
-	}
-}
+// 		// c.NoContent(http.StatusNoContent)
+// 	}
+// }

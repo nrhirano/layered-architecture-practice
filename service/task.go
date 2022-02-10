@@ -1,29 +1,29 @@
-package usecase
+package service
 
 import (
 	"github.com/GenkiHirano/layered-architecture-practice/domain/model"
 	"github.com/GenkiHirano/layered-architecture-practice/domain/repository"
 )
 
-// TaskUsecase task usecaseのinterface
-type TaskUsecase interface {
+// TaskService task serviceのinterface
+type TaskService interface {
 	Create(title, content string) (*model.Task, error)
 	FindByID(id int) (*model.Task, error)
 	Update(id int, title, content string) (*model.Task, error)
 	Delete(id int) error
 }
 
-type taskUsecase struct {
+type taskService struct {
 	taskRepo repository.TaskRepository
 }
 
-// NewTaskUsecase task usecaseのコンストラクタ
-func NewTaskUsecase(taskRepo repository.TaskRepository) TaskUsecase {
-	return &taskUsecase{taskRepo: taskRepo}
+// NewTaskService task serviceのコンストラクタ
+func NewTaskService(taskRepo repository.TaskRepository) TaskService {
+	return &taskService{taskRepo: taskRepo}
 }
 
 // Create taskを保存するときのユースケース
-func (tu *taskUsecase) Create(title, content string) (*model.Task, error) {
+func (tu *taskService) Create(title, content string) (*model.Task, error) {
 	task, err := model.NewTask(title, content)
 	if err != nil {
 		return nil, err
@@ -38,7 +38,7 @@ func (tu *taskUsecase) Create(title, content string) (*model.Task, error) {
 }
 
 // FindByID taskをIDで取得するときのユースケース
-func (tu *taskUsecase) FindByID(id int) (*model.Task, error) {
+func (tu *taskService) FindByID(id int) (*model.Task, error) {
 	foundTask, err := tu.taskRepo.FindByID(id)
 	if err != nil {
 		return nil, err
@@ -48,7 +48,7 @@ func (tu *taskUsecase) FindByID(id int) (*model.Task, error) {
 }
 
 // Update taskを更新するときのユースケース
-func (tu *taskUsecase) Update(id int, title, content string) (*model.Task, error) {
+func (tu *taskService) Update(id int, title, content string) (*model.Task, error) {
 	targetTask, err := tu.taskRepo.FindByID(id)
 	if err != nil {
 		return nil, err
@@ -68,7 +68,7 @@ func (tu *taskUsecase) Update(id int, title, content string) (*model.Task, error
 }
 
 // Delete taskを削除するときのユースケース
-func (tu *taskUsecase) Delete(id int) error {
+func (tu *taskService) Delete(id int) error {
 	task, err := tu.taskRepo.FindByID(id)
 	if err != nil {
 		return err

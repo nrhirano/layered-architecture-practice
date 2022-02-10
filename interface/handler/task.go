@@ -4,26 +4,26 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/GenkiHirano/layered-architecture-practice/usecase"
-
+	"github.com/GenkiHirano/layered-architecture-practice/service"
+	"github.com/gin-gonic/gin"
 	"github.com/labstack/echo"
 )
 
 // TaskHandler task handlerのinterface
 type TaskHandler interface {
-	Post() echo.HandlerFunc
-	Get() echo.HandlerFunc
-	Put() echo.HandlerFunc
-	Delete() echo.HandlerFunc
+	Post()
+	Get() gin.HandlerFunc
+	Put() gin.HandlerFunc
+	Delete() gin.HandlerFunc
 }
 
 type taskHandler struct {
-	taskUsecase usecase.TaskUsecase
+	taskService service.TaskService
 }
 
 // NewTaskHandler task handlerのコンストラクタ
-func NewTaskHandler(taskUsecase usecase.TaskUsecase) TaskHandler {
-	return &taskHandler{taskUsecase: taskUsecase}
+func NewTaskHandler(taskService service.TaskService) TaskHandler {
+	return &taskHandler{taskService: taskService}
 }
 
 type requestTask struct {
@@ -38,14 +38,14 @@ type responseTask struct {
 }
 
 // Post taskを保存するときのハンドラー
-func (th *taskHandler) Post() echo.HandlerFunc {
-	return func(c echo.Context) error {
+func (th *taskHandler) Post() {
+	return func(c gin.Context) error {
 		var req requestTask
 		if err := c.Bind(&req); err != nil {
 			return c.JSON(http.StatusBadRequest, err.Error())
 		}
 
-		createdTask, err := th.taskUsecase.Create(req.Title, req.Content)
+		createdTask, err := th.taskService.Create(req.Title, req.Content)
 		if err != nil {
 			return c.JSON(http.StatusBadRequest, err.Error())
 		}
@@ -68,7 +68,7 @@ func (th *taskHandler) Get() echo.HandlerFunc {
 			return c.JSON(http.StatusBadRequest, err.Error())
 		}
 
-		foundTask, err := th.taskUsecase.FindByID(id)
+		foundTask, err := th.taskService.FindByID(id)
 		if err != nil {
 			return c.JSON(http.StatusBadRequest, err.Error())
 		}
@@ -96,7 +96,7 @@ func (th *taskHandler) Put() echo.HandlerFunc {
 			return c.JSON(http.StatusBadRequest, err.Error())
 		}
 
-		updatedTask, err := th.taskUsecase.Update(id, req.Title, req.Content)
+		updatedTask, err := th.taskService.Update(id, req.Title, req.Content)
 		if err != nil {
 			return c.JSON(http.StatusBadRequest, err.Error())
 		}
@@ -119,7 +119,7 @@ func (th *taskHandler) Delete() echo.HandlerFunc {
 			return c.JSON(http.StatusBadRequest, err.Error())
 		}
 
-		err = th.taskUsecase.Delete(id)
+		err = th.taskService.Delete(id)
 		if err != nil {
 			return c.JSON(http.StatusBadRequest, err.Error())
 		}

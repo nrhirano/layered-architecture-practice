@@ -6,9 +6,9 @@ import (
 
 // Task taskの構造体
 type Task struct {
-	ID      int
-	Title   string
-	Content string
+	ID      int    `xorm:"id pk autoincr"`
+	Title   string `xorm:"title"`
+	Content string `xorm:"content"`
 }
 
 // NewTask taskのコンストラクタ

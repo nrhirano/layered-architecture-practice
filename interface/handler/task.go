@@ -6,12 +6,11 @@ import (
 
 	"github.com/GenkiHirano/layered-architecture-practice/service"
 	"github.com/gin-gonic/gin"
-	"github.com/labstack/echo"
 )
 
 // TaskHandler task handlerのinterface
 type TaskHandler interface {
-	Post()
+	Post() gin.HandlerFunc
 	Get() gin.HandlerFunc
 	Put() gin.HandlerFunc
 	Delete() gin.HandlerFunc
@@ -38,16 +37,16 @@ type responseTask struct {
 }
 
 // Post taskを保存するときのハンドラー
-func (th *taskHandler) Post() {
-	return func(c gin.Context) error {
+func (th *taskHandler) Post() gin.HandlerFunc {
+	return func(c *gin.Context) {
 		var req requestTask
 		if err := c.Bind(&req); err != nil {
-			return c.JSON(http.StatusBadRequest, err.Error())
+			c.AbortWithStatusJSON(http.StatusBadRequest, err.Error())
 		}
 
 		createdTask, err := th.taskService.Create(req.Title, req.Content)
 		if err != nil {
-			return c.JSON(http.StatusBadRequest, err.Error())
+			c.AbortWithStatusJSON(http.StatusBadRequest, err.Error())
 		}
 
 		res := responseTask{
@@ -56,21 +55,21 @@ func (th *taskHandler) Post() {
 			Content: createdTask.Content,
 		}
 
-		return c.JSON(http.StatusCreated, res)
+		c.JSON(http.StatusCreated, res)
 	}
 }
 
 // Get taskを取得するときのハンドラー
-func (th *taskHandler) Get() echo.HandlerFunc {
-	return func(c echo.Context) error {
+func (th *taskHandler) Get() gin.HandlerFunc {
+	return func(c *gin.Context) {
 		id, err := strconv.Atoi((c.Param("id")))
 		if err != nil {
-			return c.JSON(http.StatusBadRequest, err.Error())
+			c.AbortWithStatusJSON(http.StatusBadRequest, err.Error())
 		}
 
 		foundTask, err := th.taskService.FindByID(id)
 		if err != nil {
-			return c.JSON(http.StatusBadRequest, err.Error())
+			c.AbortWithStatusJSON(http.StatusBadRequest, err.Error())
 		}
 
 		res := responseTask{
@@ -79,26 +78,26 @@ func (th *taskHandler) Get() echo.HandlerFunc {
 			Content: foundTask.Content,
 		}
 
-		return c.JSON(http.StatusOK, res)
+		c.JSON(http.StatusOK, res)
 	}
 }
 
 // Put taskを更新するときのハンドラー
-func (th *taskHandler) Put() echo.HandlerFunc {
-	return func(c echo.Context) error {
+func (th *taskHandler) Put() gin.HandlerFunc {
+	return func(c *gin.Context) {
 		id, err := strconv.Atoi(c.Param("id"))
 		if err != nil {
-			return c.JSON(http.StatusBadRequest, err.Error())
+			c.AbortWithStatusJSON(http.StatusBadRequest, err.Error())
 		}
 
 		var req requestTask
 		if err := c.Bind(&req); err != nil {
-			return c.JSON(http.StatusBadRequest, err.Error())
+			c.AbortWithStatusJSON(http.StatusBadRequest, err.Error())
 		}
 
 		updatedTask, err := th.taskService.Update(id, req.Title, req.Content)
 		if err != nil {
-			return c.JSON(http.StatusBadRequest, err.Error())
+			c.AbortWithStatusJSON(http.StatusBadRequest, err.Error())
 		}
 
 		res := responseTask{
@@ -107,23 +106,23 @@ func (th *taskHandler) Put() echo.HandlerFunc {
 			Content: updatedTask.Content,
 		}
 
-		return c.JSON(http.StatusOK, res)
+		c.JSON(http.StatusOK, res)
 	}
 }
 
 // Delete taskを削除するときのハンドラー
-func (th *taskHandler) Delete() echo.HandlerFunc {
-	return func(c echo.Context) error {
+func (th *taskHandler) Delete() gin.HandlerFunc {
+	return func(c *gin.Context) {
 		id, err := strconv.Atoi(c.Param("id"))
 		if err != nil {
-			return c.JSON(http.StatusBadRequest, err.Error())
+			c.AbortWithStatusJSON(http.StatusBadRequest, err.Error())
 		}
 
 		err = th.taskService.Delete(id)
 		if err != nil {
-			return c.JSON(http.StatusBadRequest, err.Error())
+			c.AbortWithStatusJSON(http.StatusBadRequest, err.Error())
 		}
 
-		return c.NoContent(http.StatusNoContent)
+		c.NoContent(http.StatusNoContent)
 	}
 }

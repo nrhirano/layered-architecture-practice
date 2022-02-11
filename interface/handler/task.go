@@ -11,9 +11,6 @@ import (
 // TaskHandler task handlerのinterface
 type TaskHandler interface {
 	Post() gin.HandlerFunc
-	Get() gin.HandlerFunc
-	Put() gin.HandlerFunc
-	// Delete() gin.HandlerFunc
 }
 
 type taskHandler struct {
@@ -82,48 +79,3 @@ func (th *taskHandler) Get() gin.HandlerFunc {
 		c.JSON(http.StatusOK, res)
 	}
 }
-
-// Put taskを更新するときのハンドラー
-func (th *taskHandler) Put() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		id, err := strconv.Atoi(c.Param("id"))
-		if err != nil {
-			c.AbortWithStatusJSON(http.StatusBadRequest, err.Error())
-		}
-
-		var req requestTask
-		if err := c.Bind(&req); err != nil {
-			c.AbortWithStatusJSON(http.StatusBadRequest, err.Error())
-		}
-
-		updatedTask, err := th.taskService.Update(id, req.Title, req.Content)
-		if err != nil {
-			c.AbortWithStatusJSON(http.StatusBadRequest, err.Error())
-		}
-
-		res := responseTask{
-			ID:      updatedTask.ID,
-			Title:   updatedTask.Title,
-			Content: updatedTask.Content,
-		}
-
-		c.JSON(http.StatusOK, res)
-	}
-}
-
-// // Delete taskを削除するときのハンドラー
-// func (th *taskHandler) Delete() gin.HandlerFunc {
-// 	return func(c *gin.Context) {
-// 		id, err := strconv.Atoi(c.Param("id"))
-// 		if err != nil {
-// 			c.AbortWithStatusJSON(http.StatusBadRequest, err.Error())
-// 		}
-
-// 		err = th.taskService.Delete(id)
-// 		if err != nil {
-// 			c.AbortWithStatusJSON(http.StatusBadRequest, err.Error())
-// 		}
-
-// 		// c.NoContent(http.StatusNoContent)
-// 	}
-// }

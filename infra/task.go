@@ -34,7 +34,7 @@ func (tr *taskRepository) Create(task *model.Task) (*model.Task, error) {
 }
 
 // FindByID taskをIDで取得
-func (tr *taskRepository) FindByID(id int) (*model.Task, error) {
+func (tr *taskRepository) Get(id int) (*model.Task, error) {
 	task := &model.Task{ID: id}
 
 	_, err := tr.Engine.Where("id = ?", task.ID).Get(task)

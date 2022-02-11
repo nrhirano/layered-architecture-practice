@@ -8,7 +8,7 @@ import (
 // TaskService task serviceのinterface
 type TaskService interface {
 	Create(title, content string) (*model.Task, error)
-	FindByID(id int) (*model.Task, error)
+	Get(id int) (*model.Task, error)
 	Update(id int, title, content string) (*model.Task, error)
 	// Delete(id int) error
 }
@@ -38,8 +38,8 @@ func (tu *taskService) Create(title, content string) (*model.Task, error) {
 }
 
 // FindByID taskをIDで取得するときのユースケース
-func (tu *taskService) FindByID(id int) (*model.Task, error) {
-	foundTask, err := tu.taskRepo.FindByID(id)
+func (tu *taskService) Get(id int) (*model.Task, error) {
+	foundTask, err := tu.taskRepo.Get(id)
 	if err != nil {
 		return nil, err
 	}
@@ -49,7 +49,7 @@ func (tu *taskService) FindByID(id int) (*model.Task, error) {
 
 // Update taskを更新するときのユースケース
 func (tu *taskService) Update(id int, title, content string) (*model.Task, error) {
-	targetTask, err := tu.taskRepo.FindByID(id)
+	targetTask, err := tu.taskRepo.Get(id)
 	if err != nil {
 		return nil, err
 	}

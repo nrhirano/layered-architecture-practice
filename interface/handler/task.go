@@ -68,7 +68,7 @@ func (th *taskHandler) Get() gin.HandlerFunc {
 			c.AbortWithStatusJSON(http.StatusBadRequest, err.Error())
 		}
 
-		foundTask, err := th.taskService.FindByID(id)
+		foundTask, err := th.taskService.Get(id)
 		if err != nil {
 			c.AbortWithStatusJSON(http.StatusBadRequest, err.Error())
 		}

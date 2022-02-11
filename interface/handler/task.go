@@ -44,6 +44,7 @@ func (th *taskHandler) Post() gin.HandlerFunc {
 			c.AbortWithStatusJSON(http.StatusBadRequest, err.Error())
 		}
 
+		// serviceのCreateへジャンプします
 		createdTask, err := th.taskService.Create(req.Title, req.Content)
 		if err != nil {
 			c.AbortWithStatusJSON(http.StatusBadRequest, err.Error())

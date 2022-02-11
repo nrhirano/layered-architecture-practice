@@ -31,7 +31,6 @@ func (tr *taskRepository) Create(task *model.Task) (*model.Task, error) {
 	}
 
 	return newTask, nil
-	// return task, nil
 }
 
 // FindByID taskをIDで取得

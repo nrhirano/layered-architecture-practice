@@ -16,19 +16,4 @@ func main() {
 	r := gin.New()
 	handler.InitRouting(r, taskHandler)
 	r.Run()
-
-	// r := gin.New()
-	// r.GET("/task", func(c *gin.Context) {
-	// 	handler.TaskHandler.Post(c)
-	// })
-	// r.PUT("/", func(c *gin.Context) {
-	// 	// ハンドラーを呼ぶ
-	// })
-	// r.POST("/", func(c *gin.Context) {
-	// 	// ハンドラーを呼ぶ
-	// })
-	// r.DELETE("/", func(c *gin.Context) {
-	// 	// ハンドラーを呼ぶ
-	// })
-
 }

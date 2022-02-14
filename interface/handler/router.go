@@ -8,5 +8,5 @@ import (
 func InitRouting(c *gin.Engine, taskHandler TaskHandler) {
 
 	c.POST("/task", taskHandler.Post())
-	c.GET("/task/:id", taskHandler.Get())
+	// c.GET("/task/:id", taskHandler.Get())
 }

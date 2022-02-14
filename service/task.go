@@ -2,7 +2,7 @@ package service
 
 import (
 	"github.com/GenkiHirano/layered-architecture-practice/domain/model"
-	"github.com/GenkiHirano/layered-architecture-practice/domain/repository"
+	"github.com/GenkiHirano/layered-architecture-practice/repository"
 )
 
 // TaskService task serviceのinterface

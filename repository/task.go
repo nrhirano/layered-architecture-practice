@@ -1,19 +1,22 @@
-package infra
+package repository
 
 import (
 	"log"
 
 	"github.com/GenkiHirano/layered-architecture-practice/domain/model"
-	"github.com/GenkiHirano/layered-architecture-practice/domain/repository"
 	"xorm.io/xorm"
 )
+
+type TaskRepository interface {
+	Create(task *model.Task) (*model.Task, error)
+}
 
 type taskRepository struct {
 	Engine *xorm.Engine
 }
 
 // NewTaskRepository task repositoryのコンストラクタ
-func NewTaskRepository(engine *xorm.Engine) repository.TaskRepository {
+func NewTaskRepository(engine *xorm.Engine) TaskRepository {
 	return &taskRepository{Engine: engine}
 }
 

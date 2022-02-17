@@ -45,7 +45,7 @@ func (tr *taskRepository) Get(task *model.Task) (*model.Task, error) {
 		Content: task.Content,
 	}
 
-	_, err := tr.Engine.Where("id = ?", 1).Get(newTask)
+	_, err := tr.Engine.Where("id = ?", task.ID).Get(newTask)
 	if err != nil {
 		log.Fatal(err)
 	}

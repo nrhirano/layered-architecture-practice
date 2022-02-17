@@ -37,12 +37,7 @@ func (tu *taskService) Create(title, content string) (*model.Task, error) {
 
 // Create taskを保存するときのユースケース
 func (tu *taskService) Get(id int) (*model.Task, error) {
-	task, err := model.NewTask2(id)
-	if err != nil {
-		return nil, err
-	}
-
-	getTask, err := tu.taskRepo.Get(task)
+	getTask, err := tu.taskRepo.Get(id)
 	if err != nil {
 		return nil, err
 	}

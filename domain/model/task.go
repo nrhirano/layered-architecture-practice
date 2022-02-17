@@ -25,14 +25,6 @@ func NewTask(title, content string) (*Task, error) {
 	return task, nil
 }
 
-// NewTask taskのコンストラクタ
-func NewTask2(id int) (*Task, error) {
-	task := &Task{
-		ID: id,
-	}
-	return task, nil
-}
-
 // Set taskのセッター
 func (t *Task) Set(title, content string) error {
 	if title == "" {
@@ -42,12 +34,5 @@ func (t *Task) Set(title, content string) error {
 	t.Title = title
 	t.Content = content
 
-	return nil
-}
-
-// Set taskのセッター
-func (t *Task) Set2(id int) error {
-
-	t.ID = id
 	return nil
 }

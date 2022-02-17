@@ -9,7 +9,7 @@ import (
 
 type TaskRepository interface {
 	Create(task *model.Task) (*model.Task, error)
-	Get(task *model.Task) (*model.Task, error)
+	Get(id int) (*model.Task, error)
 }
 
 type taskRepository struct {
@@ -38,9 +38,10 @@ func (tr *taskRepository) Create(task *model.Task) (*model.Task, error) {
 }
 
 // Create taskの保存
-func (tr *taskRepository) Get(task *model.Task) (*model.Task, error) {
+func (tr *taskRepository) Get(id int) (*model.Task, error) {
+	var task *model.Task
 	newTask := &model.Task{
-		ID:      task.ID,
+		ID:      id,
 		Title:   task.Title,
 		Content: task.Content,
 	}

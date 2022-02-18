@@ -39,17 +39,14 @@ func (tr *taskRepository) Create(task *model.Task) (*model.Task, error) {
 
 // Create taskの保存
 func (tr *taskRepository) Get(id int) (*model.Task, error) {
-	var task *model.Task
-	newTask := &model.Task{
-		ID:      id,
-		Title:   task.Title,
-		Content: task.Content,
+	task := &model.Task{
+		ID: id,
 	}
 
-	_, err := tr.Engine.Where("id = ?", task.ID).Get(newTask)
+	_, err := tr.Engine.Where("id = ?", task.ID).Get(task)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	return newTask, nil
+	return task, nil
 }

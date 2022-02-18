@@ -9,6 +9,7 @@ import (
 
 type TaskRepository interface {
 	Create(task *model.Task) (*model.Task, error)
+	Get(id int) (*model.Task, error)
 }
 
 type taskRepository struct {
@@ -34,4 +35,18 @@ func (tr *taskRepository) Create(task *model.Task) (*model.Task, error) {
 	}
 
 	return newTask, nil
+}
+
+// Create taskの保存
+func (tr *taskRepository) Get(id int) (*model.Task, error) {
+	task := &model.Task{
+		ID: id,
+	}
+
+	_, err := tr.Engine.Where("id = ?", task.ID).Get(task)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return task, nil
 }

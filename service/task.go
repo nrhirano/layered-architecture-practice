@@ -8,6 +8,7 @@ import (
 // TaskService task serviceのinterface
 type TaskService interface {
 	Create(title, content string) (*model.Task, error)
+	Get(id int) (*model.Task, error)
 }
 
 type taskService struct {
@@ -32,4 +33,14 @@ func (tu *taskService) Create(title, content string) (*model.Task, error) {
 	}
 
 	return createdTask, nil
+}
+
+// Create taskを保存するときのユースケース
+func (tu *taskService) Get(id int) (*model.Task, error) {
+	getTask, err := tu.taskRepo.Get(id)
+	if err != nil {
+		return nil, err
+	}
+
+	return getTask, nil
 }

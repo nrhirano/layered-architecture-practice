@@ -6,7 +6,8 @@ WORKDIR /
 
 COPY . /go/src/github.com/GenkiHirano/layered-architecture-practice
 
-RUN apk update && apk add --no-cache git
+#RUN apk update && apk add --no-cache git
+
 RUN cd /go/src/github.com/GenkiHirano/layered-architecture-practice/api && go build -o bin/sample main.go
 
 FROM alpine:3.8

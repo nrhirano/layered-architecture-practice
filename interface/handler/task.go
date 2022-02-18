@@ -2,6 +2,7 @@ package handler
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/GenkiHirano/layered-architecture-practice/service"
 	"github.com/gin-gonic/gin"
@@ -10,6 +11,7 @@ import (
 // TaskHandler task handlerのinterface
 type TaskHandler interface {
 	Post() gin.HandlerFunc
+	Get() gin.HandlerFunc
 }
 
 type taskHandler struct {
@@ -57,24 +59,24 @@ func (th *taskHandler) Post() gin.HandlerFunc {
 }
 
 // Get taskを取得するときのハンドラー
-// func (th *taskHandler) Get() gin.HandlerFunc {
-// 	return func(c *gin.Context) {
-// 		id, err := strconv.Atoi((c.Param("id")))
-// 		if err != nil {
-// 			c.AbortWithStatusJSON(http.StatusBadRequest, err.Error())
-// 		}
+func (th *taskHandler) Get() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		id, err := strconv.Atoi((c.Param("id")))
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusBadRequest, err.Error())
+		}
 
-// 		foundTask, err := th.taskService.Get(id)
-// 		if err != nil {
-// 			c.AbortWithStatusJSON(http.StatusBadRequest, err.Error())
-// 		}
+		foundTask, err := th.taskService.Get(id)
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusBadRequest, err.Error())
+		}
 
-// 		res := responseTask{
-// 			ID:      foundTask.ID,
-// 			Title:   foundTask.Title,
-// 			Content: foundTask.Content,
-// 		}
+		res := responseTask{
+			ID:      foundTask.ID,
+			Title:   foundTask.Title,
+			Content: foundTask.Content,
+		}
 
-// 		c.JSON(http.StatusOK, res)
-// 	}
-// }
+		c.JSON(http.StatusOK, res)
+	}
+}
